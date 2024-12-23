@@ -1,7 +1,7 @@
 # Learning Management System (LMS)
 
 A modern, full-stack Learning Management System built with React and Django, featuring role-based access control and comprehensive course management capabilities.
-- Demo_Working: [@yourusername](https://github.com/yourusername)
+- Demo_Working: [App Working link, click here](https://drive.google.com/file/d/1JkwyAQ68Y9AmuOmgfFZXeyUF9mZHVjji/view?usp=sharing)
 
 ## 🚀 Features
 
