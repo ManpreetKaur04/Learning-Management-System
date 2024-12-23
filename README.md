@@ -1,15 +1,13 @@
 # Learning Management System (LMS)
 
 A modern, full-stack Learning Management System built with React and Django, featuring role-based access control and comprehensive course management capabilities.
-
-![LMS Dashboard](/api/placeholder/800/400)
+- Demo_Working: [@yourusername](https://github.com/yourusername)
 
 ## 🚀 Features
 
 ### Core Features
 - **Role-Based Authentication**
   - Student, Teacher, and Admin access levels
-  - Secure JWT-based authentication
   - Protected routes and authorized actions
 
 - **Course Management**
@@ -52,24 +50,22 @@ A modern, full-stack Learning Management System built with React and Django, fea
 
 ### Frontend
 - **React** - UI library
-- **Tailwind CSS** - Styling
+- **Bootstrap CSS** - Styling
 - **Shadcn/UI** - Component library
 - **Lucide React** - Icons
 - **React Router** - Navigation
-- **JWT Decode** - Authentication
+
 
 ### Backend
 - **Django** - Web framework
 - **Django REST Framework** - API
-- **PostgreSQL** - Database
-- **JWT** - Authentication
-- **Celery** - Background tasks
+- **SQL** - Database
 
 ## 📦 Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/lms-system.git
+git clone https://github.com/ManpreetKaur04/Learning-Management-System.git
 cd lms-system
 ```
 
@@ -85,24 +81,12 @@ cd backend
 pip install -r requirements.txt
 ```
 
-4. Set up environment variables:
-```bash
-# Frontend (.env)
-REACT_APP_API_URL=http://localhost:8000/api
-REACT_APP_JWT_SECRET=your_jwt_secret
-
-# Backend (.env)
-DEBUG=True
-SECRET_KEY=your_secret_key
-DATABASE_URL=postgresql://user:password@localhost:5432/lms_db
-```
-
-5. Run migrations:
+4. Run migrations:
 ```bash
 python manage.py migrate
 ```
 
-6. Start the development servers:
+5. Start the development servers:
 ```bash
 # Frontend
 npm start
@@ -118,121 +102,148 @@ lms-system/
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── auth/
-│   │   │   ├── course/
-│   │   │   ├── assignment/
-│   │   │   └── ui/
-│   │   ├── contexts/
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   └── utils/
+│   │   ├── index.css
+│   │   └── App.js
 │   └── public/
 └── backend/
-    ├── core/
-    ├── users/
-    ├── courses/
-    ├── assignments/
-    └── api/
-```
-
-## 🔒 Security Features
-
-- JWT-based authentication
-- Role-based access control
-- Input sanitization
-- XSS protection
-- CSRF protection
-- Rate limiting
-- File upload validation
-
-## 🚀 Deployment
-
-### Frontend Deployment (Vercel)
-1. Connect your GitHub repository
-2. Configure build settings:
-```bash
-Build Command: npm run build
-Output Directory: build
-```
-
-### Backend Deployment (Heroku)
-1. Create a new Heroku app
-2. Configure environment variables
-3. Deploy using Heroku CLI:
-```bash
-heroku git:remote -a your-app-name
-git push heroku main
+    ├── backend/
+    ├── app/
+    ├── manage.py
+    ├── requirements.txt
+    └── media/
 ```
 
 ## 📈 API Documentation
 
-### Authentication Endpoints
-```
-POST /api/auth/login/
-POST /api/auth/refresh/
-POST /api/auth/logout/
-```
+# API Documentation
 
-### Course Endpoints
-```
-GET /api/courses/
-POST /api/courses/
-GET /api/courses/{id}/
-PUT /api/courses/{id}/
-DELETE /api/courses/{id}/
-```
+## Authentication Endpoints
 
-### Assignment Endpoints
-```
-GET /api/assignments/
-POST /api/assignments/
-GET /api/assignments/{id}/
-PUT /api/assignments/{id}/
-POST /api/assignments/{id}/submit/
-```
+### Login
+- **URL:** `/login/`
+- **Method:** POST
+- **Description:** Authenticates a user and creates a session
+- **Required Fields:**
+  - username (string)
+  - password (string)
+- **Returns:** Authentication token or session cookie
 
-## 🧪 Testing
+### Logout
+- **URL:** `/logout/`
+- **Method:** POST
+- **Description:** Ends the user's current session
+- **Authentication:** Required
+- **Returns:** Success message
 
-### Frontend Testing
-```bash
-# Run tests
-npm test
+## Course Management
 
-# Run tests with coverage
-npm run test:coverage
-```
+### List Courses
+- **URL:** `/courses/`
+- **Method:** GET
+- **Description:** Retrieves a list of all available courses
+- **Authentication:** Required
+- **Returns:** Array of course objects containing course details
 
-### Backend Testing
-```bash
-# Run tests
-python manage.py test
+### List Assignments
+- **URL:** `/assignments/`
+- **Method:** GET
+- **Description:** Retrieves all assignments for the authenticated user
+- **Authentication:** Required
+- **Returns:** Array of assignment objects
 
-# Run tests with coverage
-coverage run manage.py test
-coverage report
-```
+### Submit Assignment
+- **URL:** `/submit_assignment/`
+- **Method:** POST
+- **Description:** Allows students to submit their assignments
+- **Authentication:** Required
+- **Required Fields:**
+  - assignment_id (integer)
+  - submission_file (file)
+  - comments (string, optional)
+- **Returns:** Submission confirmation
 
-## 🤝 Contributing
+## Attendance Management
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+### Mark Attendance
+- **URL:** `/attendance/`
+- **Method:** POST
+- **Description:** Records attendance for students
+- **Authentication:** Required
+- **Required Fields:**
+  - course_id (integer)
+  - student_ids (array)
+  - date (date)
+- **Returns:** Attendance confirmation
 
-## 📝 License
+### Active Students
+- **URL:** `/active_students/<course_id>/`
+- **Method:** GET
+- **Description:** Lists all active students for a specific course
+- **Authentication:** Required
+- **Parameters:**
+  - course_id (integer) - URL parameter
+- **Returns:** Array of active student objects
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+## Study Materials
 
-## 🙋‍♂️ Author
+### Upload Study Material
+- **URL:** `/upload_study_material/`
+- **Method:** POST
+- **Description:** Uploads study materials for a course
+- **Authentication:** Required (Teacher/Admin only)
+- **Required Fields:**
+  - course_id (integer)
+  - title (string)
+  - description (string)
+  - file (file)
+- **Returns:** Upload confirmation
 
-Your Name
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourprofile)
-- Portfolio: [yourportfolio.com](https://yourportfolio.com)
+## Notifications
 
-## 🌟 Acknowledgments
+### Send Notification
+- **URL:** `/send_notification/`
+- **Method:** POST
+- **Description:** Sends notifications to specified users
+- **Authentication:** Required (Admin/Teacher only)
+- **Required Fields:**
+  - recipients (array)
+  - message (string)
+  - priority (string, optional)
+- **Returns:** Notification sent confirmation
 
-- Shadcn/UI for the component library
-- Tailwind CSS for the utility-first CSS framework
-- Django community for the robust backend framework
+### Get Notifications
+- **URL:** `/get_notifications/`
+- **Method:** GET
+- **Description:** Retrieves notifications for the authenticated user
+- **Authentication:** Required
+- **Optional Parameters:**
+  - limit (integer)
+  - offset (integer)
+- **Returns:** Array of notification objects
+
+## User Management
+
+### Get Users
+- **URL:** `/get_users/`
+- **Method:** GET
+- **Description:** Retrieves list of users (filtered based on user role)
+- **Authentication:** Required (Admin only)
+- **Optional Parameters:**
+  - role (string)
+  - status (string)
+- **Returns:** Array of user objects
+
+### Add User
+- **URL:** `/add_user/`
+- **Method:** POST
+- **Description:** Creates a new user account
+- **Authentication:** Required (Admin only)
+- **Required Fields:**
+  - username (string)
+  - email (string)
+  - password (string)
+  - role (string)
+  - first_name (string)
+  - last_name (string)
+- **Returns:** Created user object
+
